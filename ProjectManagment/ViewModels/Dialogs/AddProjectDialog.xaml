@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="ProjectManagment.ViewModels.Dialogs.AddProjectDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:ProjectManagment.ViewModels.Dialogs"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <Grid Margin="15"
+          HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock>New Project:</TextBlock>
+        <TextBox Grid.Row="1"
+                 x:Name="inputBox"
+                 wpf:HintAssist.Hint="Title"
+                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                 Margin="0 6 0 0"
+                 >
+            <TextBox.Text>
+                <Binding Path="Title"
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0 16 0 0">
+            <Button IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{Binding Text, ElementName=inputBox}"
+                    Content="Add">
+            </Button>
+            <Button IsCancel="True"
+                    Margin="8 0 0 0"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                    Content="Cancel">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

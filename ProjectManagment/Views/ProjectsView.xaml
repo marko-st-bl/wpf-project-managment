@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="ProjectManagment.Views.ProjectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectManagment.Views"
+             xmlns:model="clr-namespace:ProjectManagment.Models"
+             xmlns:vm="clr-namespace:ProjectManagment.ViewModels"
+             mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DataContext="{d:DesignInstance Type=vm:ProjectsViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DialogHost.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <materialDesign:DialogHost Identifier="RootDialog"
+                               CloseOnClickAway="True"
+                               DialogTheme="Inherit"
+                               OverlayBackground="Transparent">
+        
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid MinWidth="220"
+                      Grid.Column="0"
+                      Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TreeView Grid.Row="0"
+                              ItemsSource="{Binding Projects}"
+                              MinWidth="220"
+                              SelectedItemChanged="TreeView_SelectedItemChanged">
+                        <TreeView.Resources>
+                            <Style TargetType="TreeViewItem"
+                                   BasedOn="{StaticResource MaterialDesignTreeViewItem}">
+                                <Setter Property="materialDesign:TreeViewAssist.ExpanderSize"
+                                        Value="14" />
+                                <Setter Property="materialDesign:TreeViewAssist.ShowSelection"
+                                        Value="True" />
+                            </Style>
+                            <HierarchicalDataTemplate DataType="{x:Type model:Project}"
+                                                      ItemsSource="{Binding Tasks}">
+                                <TextBlock Text="{Binding Title}"
+                                           Margin="3,2" />
+
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type model:Task}">
+                                <TextBlock Text="{Binding Title}"
+                                           Margin="3,2" />
+                            </DataTemplate>
+                        </TreeView.Resources>
+
+                    </TreeView>
+                    <materialDesign:PopupBox Grid.Row="1"
+                                             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                             PlacementMode="LeftAndAlignMiddles"
+                                             UnfurlOrientation="Horizontal"
+                                             ToolTip="Manage Projects"
+                                             Margin="0 0 10 10"
+                                             HorizontalAlignment="Right"
+                                             VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal">
+                            <Button ToolTip="Add new Project"
+                                    Command="{Binding RunExtendedCommand}">
+                                <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                                      Stretch="Uniform"
+                                      Width="15"
+                                      Height="15"
+                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                            </Button>
+                            <Button ToolTip="Remove selected project"
+                                    Command="{Binding RemoveSelectedProjectCommand}">
+                                <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                      Stretch="Uniform"
+                                      Width="15"
+                                      Height="15"
+                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                            </Button>
+                        </StackPanel>
+
+                    </materialDesign:PopupBox>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <DataGrid ItemsSource="{Binding SelectedItem.Tasks}"
+                              CanUserAddRows="False"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="All">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title"
+                                                Binding="{Binding Title}"
+                                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                            <DataGridTextColumn Header="Description"
+                                                Binding="{Binding Description}"
+                                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                            <DataGridCheckBoxColumn Header="Is Done"
+                                                    Binding="{Binding IsDone}"
+                                                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                            </DataGridCheckBoxColumn>
+                            <materialDesign:DataGridComboBoxColumn Header="Assignee"
+                                                                   SelectedValueBinding="{Binding Assignee}"
+                                                                   ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Users}">
+
+                            </materialDesign:DataGridComboBoxColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+
+        </ScrollViewer>
+    </materialDesign:DialogHost>
+</UserControl>
