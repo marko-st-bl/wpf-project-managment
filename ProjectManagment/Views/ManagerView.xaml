@@ -114,7 +114,7 @@
                         <TextBlock
                                 VerticalAlignment="Center"
                                 Margin="16 0 0 0"
-                                Text="{x:Static p:Resources.Title}" />
+                                Text="{Binding SelectedItem.Name}" />
                     </StackPanel>
                 </materialDesign:ColorZone>
 
@@ -132,7 +132,7 @@
                         <ContentControl
                             x:Name="MainContent"
                             DataContext="{Binding SelectedItem}"
-                            Margin="{Binding MarginRequirement, FallbackValue=16}"
+                            
                             Content="{Binding Content, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
                     </ScrollViewer>
                 </Grid>

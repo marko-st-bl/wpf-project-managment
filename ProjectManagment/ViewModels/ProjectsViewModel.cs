@@ -9,7 +9,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
+using Task = ProjectManagment.Models.Task;
 
 namespace ProjectManagment.ViewModels
 {
@@ -19,15 +21,27 @@ namespace ProjectManagment.ViewModels
         {
             _context = context;
             _dataFactory = new MySqlDataFactory();
+
             Projects = new ObservableCollection<Project>();
+            if(Projects.Count > 0)
+            {
+                SelectedItem = Projects[0];
+            }
             Users = new ObservableCollection<User>();
+
             RunExtendedCommand = new AnotherCommandImplementation(ExecuteRunExtendedDialog);
             RemoveSelectedProjectCommand = new AnotherCommandImplementation(ExecuteRunPromtDialog);
+            AddNewTaskCommand = new AnotherCommandImplementation(AddNewTask);
+            DeleteTaskCommand = new AnotherCommandImplementation(DeleteTask);
+
+
             LoadProjects();
             LoadUsers();
         }
         public ICommand RunExtendedCommand { get; }
         public ICommand RemoveSelectedProjectCommand { get; }
+        public ICommand AddNewTaskCommand { get; }
+        public ICommand DeleteTaskCommand { get; }
         private SessionContext _context { get; set; }
         private MySqlDataFactory _dataFactory;
         public ObservableCollection<Project> Projects { get; set; }
@@ -38,12 +52,13 @@ namespace ProjectManagment.ViewModels
             get => _selectedItem;
             set => SetProperty(ref _selectedItem, value);
         }
+        public Task SelectedTask { get; set; }
 
         private void LoadProjects()
         {
             List<Project> projects = _dataFactory.Projects.GetProjectsByManagerId(_context.User.Id);
             projects.ForEach(p => {
-                p.Tasks = _dataFactory.Tasks.GetTasksByProjectId(p.Id);
+                p.Tasks = new ObservableCollection<Task>(_dataFactory.Tasks.GetTasksByProjectId(p.Id));
                 Projects.Add(p);
                 });
         }
@@ -82,6 +97,23 @@ namespace ProjectManagment.ViewModels
                     Projects.Remove(selectedProject);
                 }
             }
+        }
+
+        private void AddNewTask(object o)
+        {
+            Task task;
+            var selectedProject = SelectedItem as Project;
+            if (selectedProject != null)
+            {
+                task = _dataFactory.Tasks.AddBlankTask(selectedProject.Id);
+                selectedProject.Tasks.Add(task);
+            }
+        }
+
+        private void DeleteTask(object o)
+        {
+            var task = SelectedTask;
+            Console.WriteLine(task.Id);
         }
     }
 }

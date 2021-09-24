@@ -15,16 +15,27 @@
         WindowStartupLocation="CenterScreen"
         Title="Login" Height="600" Width="450">
     <Grid>
-        <StackPanel Margin="50" VerticalAlignment="Center">
-            <TextBox Name="usernameTextBox"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Margin="15"
-                     materialDesign:HintAssist.Hint="{x:Static p:Resources.Username}"/>
-            <PasswordBox Name="passwordTextBox"
-                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+        <materialDesign:Card Margin="50 100" Grid.Row="2"
+                             materialDesign:ShadowAssist.ShadowDepth="Depth3">
+            <StackPanel
+                        VerticalAlignment="Center"
+                        >
+                <TextBlock Text="Login" Margin="15"
+                           Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
+                <TextBox Name="usernameTextBox"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Margin="15"
-                     materialDesign:HintAssist.Hint="{x:Static p:Resources.Password}"/>
-            <Button Margin="15" Content="{x:Static p:Resources.Login_Button}" Click="Button_Click" />
-        </StackPanel>
+                         materialDesign:HintAssist.Hint="{x:Static p:Resources.Username}" />
+                <PasswordBox Name="passwordTextBox"
+                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                             Margin="15"
+                             materialDesign:HintAssist.Hint="{x:Static p:Resources.Password}" />
+                <Button Margin="15"
+                        Content="{x:Static p:Resources.Login_Button}"
+                        Click="Button_Click"
+                        IsDefault="True"
+                        Style="{StaticResource MaterialDesignRaisedButton}" />
+            </StackPanel>
+        </materialDesign:Card>
     </Grid>
 </Window>
