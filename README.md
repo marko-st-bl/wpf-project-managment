@@ -24,7 +24,7 @@ Oba tipa korisnika mogu da mijenjaju podešavanja aplikacije, kao što su jezik 
 
 Nakon prijave na sistem, korisniku će biti prikazan ekren sličan ekranu prikazanom na sledećoj slici.
 
-![ManagerMain](./img/manager-main.png)
+![ManagerMain](./img/manager-main.PNG)
 
 - Statusna linija sa dugmetom za meni [1]
 - Lista projekata [2]
@@ -36,7 +36,7 @@ Nakon prijave na sistem, korisniku će biti prikazan ekren sličan ekranu prikaz
 
 Na statusnoj liniji nalazi se naziv trenutnog taba ("Projektni" na prethodnoj slici) kao i dugme za meni. Klikom na dugme za meni otvara se meni sa lijeve strane ekrana (prikazan na sl. slici).
 
-![Manager Menu](./img/manager-menu.png)
+![Manager Menu](./img/manager-menu.PNG)
 
 U gornjem desnom uglu nalazi se dugme za zatvaranje menija (<-). Meni se takođe može zatvoriti i klikom bilo gdje izvan menija (potamljeni dio aplikacije na slici iznad).
 
@@ -58,7 +58,7 @@ Klikom na ovo dugme prikazuju se opcije za rad sa projektom (slika ispod).
 
 Dodavanje projekta se vrši klikom na dugme *plus* **+** (prvo dugme sa lijeve strane u označenom kvadratu na slici iznad). Nakon toga se prikazuje dialog (slika ispod).
 
-![Add project dialog](./img/manager-add-dialog.png)
+![Add project dialog](./img/manager-add-dialog.PNG)
 
 Primjetimo da je dugme dodaj onemogućeno dok se ne popuni polje za naziv projekta, radi onemogućavanja nevalidnog unosa. Nakon popunjavanja polja za naziv i klika na dugme **Dodaj** projekat će biti kreiran i dodat u listu projekata.
 
@@ -66,7 +66,7 @@ Primjetimo da je dugme dodaj onemogućeno dok se ne popuni polje za naziv projek
 
 Brisanje projekta se vrši tako što u listi projekata odabaremo željeni projekat, zatim kliknemo na dugme za rad sa projektima i kliknemo na dugme za brisanje (Dugme sa ikonicom kante za smeće). Nakon toga će se prikazati dialog za potvrdu prikazan na slici ispod. Nakon potvrde unosa projekat će biti uklonjen iz liste projekata.
 
-![Delete promt](./img/manager-delete-promt.png)
+![Delete promt](./img/manager-delete-promt.PNG)
 
 ## 2.4 Pregled označenog projekta
 
