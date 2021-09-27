@@ -95,13 +95,13 @@ Nakon uspješne prijave, korisniku se prikazuje prozor kao na slici ispod.
 
 Ima iste funkcionalnosti kao i kod dijela sa rad sa menadžerom, s tim da se samo razlikuju stavke menija.
 
-![member menu](./img/member-menu.png)
+![member menu](./img/member-menu.PNG)
 
 ## 3.2 Rad sa zadacima
 
 Svi zadaci koji su dodijeljeni korisniku su grupisani na zadatke koji su **U toku** i koji su **Završeni**. Klikom na njih se otvaraju liste sa željenim zadacima. Liste sadrže detalje o pojedinim zadicima kao i opcije za završavanje zadatka i nastavak rada na zadatku respektivno.
 
-![member tasks](./img/member-tasks.png)
+![member tasks](./img/member-tasks.PNG)
 
 # 4. Podešavanja
 
