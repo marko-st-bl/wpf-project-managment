@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = ProjectManagment.Models.Task;
 
 namespace ProjectManagment.DataAccess
 {
@@ -77,6 +78,9 @@ namespace ProjectManagment.DataAccess
         {
             MySqlConnection conn = null;
             MySqlCommand cmd;
+            MySqlTask mySqlTask = new MySqlTask();
+            List<Task> tasks = mySqlTask.GetTasksByProjectId(id);
+            tasks.ForEach(task => mySqlTask.DeleteTask(task.Id));
             try
             {
                 conn = MySqlUtil.GetConnection();

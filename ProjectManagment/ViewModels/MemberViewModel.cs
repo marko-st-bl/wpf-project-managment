@@ -10,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace ProjectManagment.ViewModels
 {
-    public class ManagerViewModel : ViewModelBase
+    class MemberViewModel : ViewModelBase
     {
-        public ManagerViewModel(SessionContext context)
+        public MemberViewModel(SessionContext context)
         {
             _user = context.User;
 
             MenuItems = new ObservableCollection<MenuItem>(new[]
             {
                 new MenuItem(
-                    Resources.ResourceManager.GetString("Projects"),
-                    "ViewDashboardOutline",
-                    typeof(ProjectsView),
-                    context
-                    ),
+                    Resources.ResourceManager.GetString("MyTasks"),
+                    "CalendarCheckOutline",
+                    typeof(TasksView),
+                    context),
                 new MenuItem(
                     Resources.ResourceManager.GetString("Settings"),
                     "Gear",
@@ -39,7 +38,6 @@ namespace ProjectManagment.ViewModels
             get => $"{_user.FirstName.Substring(0, 1)}{_user.LastName.Substring(0, 1)}";
         }
         public string Type { get => _user.Type; }
-
         private MenuItem _selectedItem;
         private int _selectedIndex;
 

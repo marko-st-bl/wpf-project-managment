@@ -24,5 +24,7 @@ namespace ProjectManagment.ViewModels.Dialogs
         {
             InitializeComponent();
         }
+
+        public string Title { get; set; }
     }
 }

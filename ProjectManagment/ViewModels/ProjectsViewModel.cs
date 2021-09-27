@@ -69,7 +69,10 @@ namespace ProjectManagment.ViewModels
         }
         private async void ExecuteRunExtendedDialog(object o)
         {
-            var view = new AddProjectDialog();
+            var view = new AddProjectDialog()
+            {
+                DataContext = new AddProjectViewModel()
+            };
 
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog");

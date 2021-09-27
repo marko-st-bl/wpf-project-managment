@@ -117,8 +117,56 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Add New Task" xml:space="preserve">
+    <value>Add new task</value>
+  </data>
+  <data name="AddNewProject" xml:space="preserve">
+    <value>Add new project</value>
+  </data>
+  <data name="AppTitleManager" xml:space="preserve">
+    <value>Project Managment | Manager</value>
+  </data>
+  <data name="AppTitleMember" xml:space="preserve">
+    <value>Project Managment | Member</value>
+  </data>
+  <data name="Assignee" xml:space="preserve">
+    <value>Assignee</value>
+  </data>
+  <data name="BackToWork" xml:space="preserve">
+    <value>Continue to work on</value>
+  </data>
   <data name="Blue" xml:space="preserve">
     <value>Blue</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteProject" xml:space="preserve">
+    <value>Delete project</value>
+  </data>
+  <data name="DeletePromt" xml:space="preserve">
+    <value>Are you sure? Project and all it's tasks will be permanently delete.</value>
+  </data>
+  <data name="DeleteSelectedProject" xml:space="preserve">
+    <value>Delete selected project</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="FieldRequired" xml:space="preserve">
+    <value>Field is required.</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -129,6 +177,18 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="ManageProjects" xml:space="preserve">
+    <value>Manage projects</value>
+  </data>
+  <data name="MyTasks" xml:space="preserve">
+    <value>My Tasks</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="OK_Button" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -136,7 +196,7 @@
     <value>Password</value>
   </data>
   <data name="PrimaryColor" xml:space="preserve">
-    <value>Primary Color</value>
+    <value>Primary color</value>
   </data>
   <data name="Projects" xml:space="preserve">
     <value>Projects</value>
@@ -153,13 +213,19 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>Settings are saved. Some changes as change of language will take effect after app restart.</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Project Managment</value>
+    <value>Title</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

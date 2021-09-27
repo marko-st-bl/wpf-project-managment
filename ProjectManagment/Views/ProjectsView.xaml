@@ -7,6 +7,7 @@
              xmlns:model="clr-namespace:ProjectManagment.Models"
              xmlns:vm="clr-namespace:ProjectManagment.ViewModels"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:p="clr-namespace:ProjectManagment.Properties"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DataContext="{d:DesignInstance Type=vm:ProjectsViewModel}"
@@ -64,7 +65,8 @@
                                                     Value="True" />
                                         </Style>
                                         <HierarchicalDataTemplate DataType="{x:Type model:Project}"
-                                                                  ItemsSource="{Binding Tasks}">
+                                                                  ItemsSource="{Binding Tasks}"
+                                                                  >
                                             <TextBlock Text="{Binding Title}"
                                                        Margin="3,2" />
 
@@ -83,12 +85,12 @@
                                                  Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                                                  PlacementMode="LeftAndAlignMiddles"
                                                  UnfurlOrientation="Horizontal"
-                                                 ToolTip="Manage Projects"
+                                                 ToolTip="{x:Static p:Resources.ManageProjects}"
                                                  Margin="0 0 10 10"
                                                  HorizontalAlignment="Right"
                                                  VerticalAlignment="Bottom">
                             <StackPanel Orientation="Horizontal">
-                                <Button ToolTip="Add new Project"
+                                <Button ToolTip="{x:Static p:Resources.AddNewProject}"
                                         Command="{Binding RunExtendedCommand}">
                                     <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
                                           Stretch="Uniform"
@@ -96,7 +98,7 @@
                                           Height="15"
                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
                                 </Button>
-                                <Button ToolTip="Remove selected project"
+                                <Button ToolTip="{x:Static p:Resources.DeleteSelectedProject}"
                                         Command="{Binding RemoveSelectedProjectCommand}">
                                     <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
                                           Stretch="Uniform"
@@ -124,7 +126,7 @@
                               AutoGenerateColumns="False"
                               HeadersVisibility="All">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title"
+                            <DataGridTextColumn Header="{x:Static p:Resources.Title}"
                                                 Binding="{Binding Title}"
                                                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                                 <DataGridTextColumn.ElementStyle>
@@ -134,7 +136,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Description"
+                            <DataGridTextColumn Header="{x:Static p:Resources.Description}"
                                                 Binding="{Binding Description}"
                                                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                                 <DataGridTextColumn.ElementStyle>
@@ -144,14 +146,17 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Is Done"
+                            <DataGridCheckBoxColumn Header="{x:Static p:Resources.Completed}"
                                                     Binding="{Binding IsDone}"
                                                     ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
                             </DataGridCheckBoxColumn>
-                            <materialDesign:DataGridComboBoxColumn Header="Assignee"
+                            <materialDesign:DataGridComboBoxColumn Header="{x:Static p:Resources.Assignee}"
                                                                    SelectedValueBinding="{Binding Assignee}"
                                                                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Users}" />
                             <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{x:Static p:Resources.Delete}" />
+                                </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource MaterialDesignIconButton}"
@@ -167,14 +172,14 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Grid.Row="1"
-                            Width="150"
+                            MinWidth="150"
                             HorizontalAlignment="Left"
                             Style="{StaticResource MaterialDesignOutlinedButton}"
                             Command="{Binding AddNewTaskCommand}"
                             Margin="0 10 0 0">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Add" />
-                            <TextBlock Text="Add new task" />
+                            <TextBlock Text="{x:Static p:Resources.AddNewTask}" />
                         </StackPanel>
                     </Button>
                 </Grid>

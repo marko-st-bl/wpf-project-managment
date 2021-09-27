@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManagment.Models
 {
-    public class User
+    public class User : IComparable
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -24,6 +24,23 @@ namespace ProjectManagment.Models
         {
             return obj is User user &&
                    Id == user.Id;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if(obj == null)
+            {
+                return 1;
+            }
+            User other = obj as User;
+            if(other != null)
+            {
+                return this.FirstName.CompareTo(other.FirstName);
+            }
+            else
+            {
+                throw new ArgumentException("Other object is not user");
+            }
         }
     }
 }

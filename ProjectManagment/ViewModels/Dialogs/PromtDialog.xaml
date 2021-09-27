@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagment.ViewModels.Dialogs"
+             xmlns:p="clr-namespace:ProjectManagment.Properties"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
@@ -13,14 +14,20 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Text="Are you sure?" />
+                   Text="{x:Static p:Resources.DeleteProject}"
+                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+        <TextBlock Grid.Row="1"
+                   Text="{x:Static p:Resources.DeletePromt}"
+                   TextWrapping="Wrap"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="1">
+                    HorizontalAlignment="Right"
+                    Grid.Row="2">
             <Button IsDefault="True"
                     Style="{DynamicResource MaterialDesignFlatButton}"
-                    Content="YES"
+                    Content="{x:Static p:Resources.Yes}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
                     <system:Boolean>True</system:Boolean>
@@ -28,7 +35,7 @@
             </Button>
             <Button 
                     Style="{DynamicResource MaterialDesignFlatButton}"
-                    Content="NO"
+                    Content="{x:Static p:Resources.No}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>

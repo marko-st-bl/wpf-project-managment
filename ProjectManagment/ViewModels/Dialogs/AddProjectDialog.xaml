@@ -6,7 +6,9 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ProjectManagment.ViewModels.Dialogs"
-             mc:Ignorable="d" 
+             xmlns:vmv="clr-namespace:ProjectManagment.ViewModels.Validation"
+             xmlns:p="clr-namespace:ProjectManagment.Properties"
+             mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
     <Grid Margin="15"
           HorizontalAlignment="Center">
@@ -15,10 +17,11 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock>New Project:</TextBlock>
+        <TextBlock Text="{x:Static p:Resources.NewProject}"
+                   Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
         <TextBox Grid.Row="1"
                  x:Name="inputBox"
-                 wpf:HintAssist.Hint="Title"
+                 wpf:HintAssist.Hint="{x:Static p:Resources.Title}"
                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                  Margin="0 6 0 0"
                  >
@@ -26,7 +29,7 @@
                 <Binding Path="Title"
                          UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-
+                        <vmv:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -35,16 +38,31 @@
                     Orientation="Horizontal"
                     Margin="0 16 0 0">
             <Button IsDefault="True"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
                     CommandParameter="{Binding Text, ElementName=inputBox}"
-                    Content="Add">
+                    Content="{x:Static p:Resources.Add}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                        <Setter Property="IsEnabled"
+                                Value="False" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=inputBox}"
+                                               Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled"
+                                        Value="True" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
             <Button IsCancel="True"
                     Margin="8 0 0 0"
                     Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
-                    Content="Cancel">
+                    Content="{x:Static p:Resources.Cancel}">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>

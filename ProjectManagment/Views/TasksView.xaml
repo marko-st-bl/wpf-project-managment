@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="ProjectManagment.Views.TasksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:p="clr-namespace:ProjectManagment.Properties"
+             xmlns:local="clr-namespace:ProjectManagment.Views"
+             mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <Expander Header="{Binding TasksInProgressHeader}"
+                          HorizontalAlignment="Stretch"
+                          Style="{StaticResource MaterialDesignExpander}">
+                    <ListBox ItemsSource="{Binding TasksInProgress}"
+                             Name="listBoxTasksInProgress"
+                             SelectedItem="{Binding SelectedTask}"
+                             >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem"
+                                   BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                <Setter Property="materialDesign:ListBoxItemAssist.ShowSelection"
+                                        Value="False" />
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="16 4 16 4">
+                                    <StackPanel Margin="5">
+                                        <TextBlock Text="{Binding Id}"
+                                                   x:Name="taskId"
+                                                   Visibility="Collapsed" />
+                                        <TextBlock Text="{Binding Path=Title}"
+                                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                                        <Separator Style="{StaticResource MaterialDesignLightSeparator}" />
+                                        <TextBlock Text="{Binding Path=Description}"
+                                                   Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                        <Button Content="{x:Static p:Resources.Complete}"
+                                                Style="{StaticResource MaterialDesignFlatLightButton}"
+                                                MaxWidth="200"
+                                                HorizontalAlignment="Right"
+                                                Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}"
+                                                CommandParameter="{Binding Text,ElementName=taskId}"/>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+                <Expander Header="{Binding TasksDoneHeader}"
+                          HorizontalAlignment="Stretch"
+                          >
+                    <ListBox ItemsSource="{Binding TasksDone}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem"
+                                   BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                <Setter Property="materialDesign:ListBoxItemAssist.ShowSelection"
+                                        Value="False" />
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="16 4 16 4"
+                                                     Padding="5">
+                                        <StackPanel>
+                                        <TextBlock Text="{Binding Id}"
+                                                   x:Name="taskId1"
+                                                   Visibility="Collapsed" />
+                                        <TextBlock Text="{Binding Path=Title}" 
+                                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                                        <Separator Style="{StaticResource MaterialDesignLightSeparator}" />
+                                        <TextBlock Text="{Binding Path=Description}"
+                                                   Style="{StaticResource MaterialDesignBody2TextBlock}" />
+                                        <Button Content="{x:Static p:Resources.BackToWork}"
+                                                Style="{StaticResource MaterialDesignFlatLightButton}"
+                                                MaxWidth="200"
+                                                HorizontalAlignment="Right"
+                                                Command="{Binding DataContext.UncompleteTaskCommand, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}"
+                                                CommandParameter="{Binding Text,ElementName=taskId1}" />
+                                    </StackPanel>
+                                    </materialDesign:Card>
+                                    
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -9,7 +9,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="15 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"
                               MinWidth="200" />
@@ -90,18 +90,24 @@
                          IsChecked="{Binding IsBlueChecked}"
                          />
         </StackPanel>
-        <StackPanel  Grid.Row="4"
+        <StackPanel  Grid.Row="3"
                      Grid.Column="2"
                      Orientation="Horizontal"
                      HorizontalAlignment="Right">
 
             <Button Margin="0 0 50 0"
                     Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="Button_Click_1"
                     Content="{x:Static p:Resources.Save_Button}"
                     Command="{Binding SaveSettingsCommand}"
                     IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
 
         </StackPanel>
-
+        <materialDesign:Snackbar Grid.Row="4"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="3"
+                                 HorizontalAlignment="Center"
+                                 x:Name="Snackbar"
+                                 MessageQueue="{materialDesign:MessageQueue}" />
     </Grid>
 </UserControl>

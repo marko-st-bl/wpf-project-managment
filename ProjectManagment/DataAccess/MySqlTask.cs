@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using ProjectManagment.DataAccess.Exceptions;
 using ProjectManagment.Models;
+using ProjectManagment.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace ProjectManagment.DataAccess
         private static string INSERT_BLANK = "INSERT INTO task";
         private static string INSERT_INTO_PROJECT_HAS_TASK = "INSERT INTO project_has_task (project_id, task_id) VALUES (@project_id, @task_id)";
         private static string SELECT_BY_PROJECT_ID = "SELECT t.id, title, description, isDone, u.id, firstName, lastName FROM task t INNER JOIN project_has_task pht ON t.id=pht.task_id LEFT OUTER JOIN user u ON pht.user_id=u.id WHERE project_id=@project_id";
-        private static string SELECT_BY_USER_ID = "";
+        private static string SELECT_BY_USER_ID = "SELECT t.id, title, description, isDone FROM task t INNER JOIN project_has_task pht ON t.id=pht.task_id WHERE user_id=@user_id";
         private static string UPDATE = "UPDATE TASK SET title=@title, description=@description, isDone=@isDone WHERE id=@id";
+        private static string COMPLETE_TASK = "UPDATE TASK SET isDone=1 WHERE id=@id";
+        private static string UNCOMPLETE_TASK = "UPDATE TASK SET isDone=0 WHERE id=@id";
         private static string ASSIGN_TASK_TO_USER = "UPDATE project_has_task SET user_id=@user_id WHERE project_id=@project_id AND task_id=@task_id";
         private static string DELETE_FROM_PROJECT_HAS_TASK = "DELETE FROM project_has_task WHERE task_id=@task_id";
         private static string DELETE = "DELETE FROM task WHERE id=@task_id";
@@ -60,8 +63,8 @@ namespace ProjectManagment.DataAccess
                 conn = MySqlUtil.GetConnection();
                 cmd = conn.CreateCommand();
                 cmd.CommandText = INSERT;
-                cmd.Parameters.AddWithValue("@title", "New Task");
-                cmd.Parameters.AddWithValue("@description", "Description...");
+                cmd.Parameters.AddWithValue("@title", Resources.ResourceManager.GetString("NewProject"));
+                cmd.Parameters.AddWithValue("@description", Resources.ResourceManager.GetString("Description"));
                 cmd.Parameters.AddWithValue("@isDone", 0);
                 cmd.ExecuteNonQuery();
 
@@ -75,8 +78,8 @@ namespace ProjectManagment.DataAccess
                 result = new Task()
                 {
                     Id = id,
-                    Title = "New Task",
-                    Description = "Description...",
+                    Title = Resources.ResourceManager.GetString("NewProject"),
+                    Description = Resources.ResourceManager.GetString("Description"),
                     IsDone = false
                 };
             }
@@ -104,6 +107,50 @@ namespace ProjectManagment.DataAccess
                 cmd.Parameters.AddWithValue("@title", task.Title);
                 cmd.Parameters.AddWithValue("@description", task.Description);
                 cmd.Parameters.AddWithValue("@IsDone", task.IsDone);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException("Exception in MySqlTask", ex);
+            }
+            finally
+            {
+                MySqlUtil.CloseQuietly(conn);
+            }
+        }
+
+        public void CompleteTask(int task_id)
+        {
+            MySqlConnection conn = null;
+            MySqlCommand cmd;
+            try
+            {
+                conn = MySqlUtil.GetConnection();
+                cmd = conn.CreateCommand();
+                cmd.CommandText = COMPLETE_TASK;
+                cmd.Parameters.AddWithValue("@id", task_id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException("Exception in MySqlTask", ex);
+            }
+            finally
+            {
+                MySqlUtil.CloseQuietly(conn);
+            }
+        }
+
+        public void UncompleteTask(int task_id)
+        {
+            MySqlConnection conn = null;
+            MySqlCommand cmd;
+            try
+            {
+                conn = MySqlUtil.GetConnection();
+                cmd = conn.CreateCommand();
+                cmd.CommandText = UNCOMPLETE_TASK;
+                cmd.Parameters.AddWithValue("@id", task_id);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -167,6 +214,44 @@ namespace ProjectManagment.DataAccess
                     {
                         newTask.Assignee = new User() { Id = reader.GetInt32(4), FirstName = reader.GetString(5), LastName = reader.GetString(6) };
                     }
+                    result.Add(newTask);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException("Exception in MySqlGroup", ex);
+            }
+            finally
+            {
+                MySqlUtil.CloseQuietly(reader, conn);
+            }
+            return result;
+        }
+
+        public List<Task> GetTasksByUserId(int user_id)
+        {
+            List<Task> result = new List<Task>();
+            MySqlConnection conn = null;
+            MySqlCommand cmd;
+            MySqlDataReader reader = null;
+
+            try
+            {
+                conn = MySqlUtil.GetConnection();
+                cmd = conn.CreateCommand();
+                cmd.CommandText = SELECT_BY_USER_ID;
+                cmd.Parameters.AddWithValue("@user_id", user_id);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Task newTask = new Task()
+                    {
+                        Id = reader.GetInt32(0),
+                        Title = reader.GetString(1),
+                        Description = reader.GetString(2),
+                        IsDone = reader.GetBoolean(3)
+                    };
+        
                     result.Add(newTask);
                 }
             }
