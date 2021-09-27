@@ -1,3 +1,21 @@
+- [1. Pregled](#1-pregled)
+  - [1.1 Dio za rad sa Menadžerom](#11-dio-za-rad-sa-menadžerom)
+  - [1.2 Dio za rad sa Članom](#12-dio-za-rad-sa-članom)
+  - [1.3 Zajedničke funcionalnosti](#13-zajedničke-funcionalnosti)
+- [2. Dio za rad sa menadžerom](#2-dio-za-rad-sa-menadžerom)
+  - [2.1 Statusna linija sa dugmetom za meni](#21-statusna-linija-sa-dugmetom-za-meni)
+  - [2.2 Lista projekata](#22-lista-projekata)
+  - [2.3 Dugme za rad sa projektima](#23-dugme-za-rad-sa-projektima)
+    - [2.3.1 Dodavanje projekta](#231-dodavanje-projekta)
+    - [2.3.2 Brisanje projekta](#232-brisanje-projekta)
+  - [2.4 Pregled označenog projekta](#24-pregled-označenog-projekta)
+  - [2.5 Dugme za dodavanje novog zadatka](#25-dugme-za-dodavanje-novog-zadatka)
+- [3. Dio za rad sa članovima](#3-dio-za-rad-sa-članovima)
+  - [3.1 Statusna linija sa dugmetom za meni](#31-statusna-linija-sa-dugmetom-za-meni)
+  - [3.2 Rad sa zadacima](#32-rad-sa-zadacima)
+- [4. Podešavanja](#4-podešavanja)
+
+
 # 1. Pregled
 
 Project Managment je Desktop aplikacija za Windows, namjenjena za upravljanje manjim projektima. Podržava dva tipa korisnika:
@@ -7,16 +25,18 @@ Project Managment je Desktop aplikacija za Windows, namjenjena za upravljanje ma
 
 Prilikom prijave korisnika, aplikacija prepoznaje tip i automatski pokreće dio sistema za rad sa određenim tipom korisnika.
 
-## Dio za rad sa Menadžerom
+![Login](./img/Login.PNG)
+
+## 1.1 Dio za rad sa Menadžerom
 
 Osnovna funkcija menadžera je da upravlja projektima: kreiranje, brisanje, ažuriranje te da kreira i pregleda zadatke, dodijeljuje ih članovima tima.
 Upotreba ovog podsistema je detaljnije opisana u drugom poglavlju ovog dokumenta.
 
-## Dio za rad sa Članom
+## 1.2 Dio za rad sa Članom
 
 Članovi mogu da pregledaju zadatke koje im je menadžer dodijelio te da ih označe kao *završene* ili *u toku*.
 
-## Zajedničke funcionalnosti
+## 1.3 Zajedničke funcionalnosti
 
 Oba tipa korisnika mogu da mijenjaju podešavanja aplikacije, kao što su jezik i izgled aplikacije, te da ih sačuvaju.
 
