@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagment.Views"
+             xmlns:common="clr-namespace:ProjectManagment.Common"
              xmlns:model="clr-namespace:ProjectManagment.Models"
              xmlns:vm="clr-namespace:ProjectManagment.ViewModels"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -14,6 +15,7 @@
              d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
         <ResourceDictionary>
+            <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
@@ -22,37 +24,36 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Auto">
-        <materialDesign:DialogHost Identifier="RootDialog"
-                                   CloseOnClickAway="True"
-                                   DialogTheme="Inherit"
-                                   OverlayBackground="Transparent"
-                                   Margin="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
+    
+    <materialDesign:DialogHost Identifier="RootDialog"
+                               CloseOnClickAway="True"
+                               DialogTheme="Inherit"
+                               OverlayBackground="Transparent"
+                               Margin="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Column="0"
+                       Grid.Row="0">
                 <materialDesign:Card MinWidth="240"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                                     materialDesign:ShadowAssist.ShadowEdges="Right">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <DockPanel Grid.Row="0"
-                                       VerticalAlignment="Top"
-                                       Margin="5 15">
+                                     MaxWidth="250"
+                                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                 materialDesign:ShadowAssist.ShadowEdges="Right">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0"
+                                   VerticalAlignment="Top"
+                                   Margin="5 15">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
                                 <TreeView ItemsSource="{Binding Projects}"
                                           MinWidth="220"
                                           SelectedItemChanged="TreeView_SelectedItemChanged">
@@ -65,8 +66,7 @@
                                                     Value="True" />
                                         </Style>
                                         <HierarchicalDataTemplate DataType="{x:Type model:Project}"
-                                                                  ItemsSource="{Binding Tasks}"
-                                                                  >
+                                                                  ItemsSource="{Binding Tasks}">
                                             <TextBlock Text="{Binding Title}"
                                                        Margin="3,2" />
 
@@ -78,112 +78,131 @@
                                     </TreeView.Resources>
 
                                 </TreeView>
-                            </DockPanel>
-                        </ScrollViewer>
-
+                            </ScrollViewer>
+                        </DockPanel>
+                        <Grid Grid.Row="0"
+                              Grid.Column="0"
+                              Visibility="{Binding HasNoProjects, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Grid.Row="1"
+                                       Margin="24,12"
+                                       Text="{x:Static p:Resources.NoProjectsMessage}"
+                                       Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                       TextWrapping="Wrap"
+                                        />
+                        </Grid>
                         <materialDesign:PopupBox Grid.Row="1"
-                                                 Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                                                 PlacementMode="LeftAndAlignMiddles"
-                                                 UnfurlOrientation="Horizontal"
-                                                 ToolTip="{x:Static p:Resources.ManageProjects}"
-                                                 Margin="0 0 10 10"
-                                                 HorizontalAlignment="Right"
-                                                 VerticalAlignment="Bottom">
-                            <StackPanel Orientation="Horizontal">
-                                <Button ToolTip="{x:Static p:Resources.AddNewProject}"
-                                        Command="{Binding RunExtendedCommand}">
-                                    <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-                                          Stretch="Uniform"
-                                          Width="15"
-                                          Height="15"
-                                          Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
-                                </Button>
-                                <Button ToolTip="{x:Static p:Resources.DeleteSelectedProject}"
-                                        Command="{Binding RemoveSelectedProjectCommand}">
-                                    <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
-                                          Stretch="Uniform"
-                                          Width="15"
-                                          Height="15"
-                                          Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
-                                </Button>
-                            </StackPanel>
-
-                        </materialDesign:PopupBox>
-                    </Grid>
-                </materialDesign:Card>
-                <Grid Grid.Column="1"
-                      Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0"
-                              Name="DataGridTasks"
-                              ItemsSource="{Binding SelectedItem.Tasks}"
-                              SelectedItem="{Binding SelectedTask}"
-                              CellEditEnding="DataGridTasks_CellEditEnding"
-                              CanUserAddRows="False"
-                              AutoGenerateColumns="False"
-                              HeadersVisibility="All">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="{x:Static p:Resources.Title}"
-                                                Binding="{Binding Title}"
-                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment"
-                                                Value="Center"></Setter>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="{x:Static p:Resources.Description}"
-                                                Binding="{Binding Description}"
-                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment"
-                                                Value="Center"></Setter>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="{x:Static p:Resources.Completed}"
-                                                    Binding="{Binding IsDone}"
-                                                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
-                            </DataGridCheckBoxColumn>
-                            <materialDesign:DataGridComboBoxColumn Header="{x:Static p:Resources.Assignee}"
-                                                                   SelectedValueBinding="{Binding Assignee}"
-                                                                   ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Users}" />
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{x:Static p:Resources.Delete}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{StaticResource MaterialDesignIconButton}"
-                                                Click="Button_Click"
-                                                Margin="0"
-                                                Width="25"
-                                                Height="25">
-                                            <materialDesign:PackIcon Kind="Delete" />
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Button Grid.Row="1"
-                            MinWidth="150"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Command="{Binding AddNewTaskCommand}"
-                            Margin="0 10 0 0">
+                                             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                             PlacementMode="LeftAndAlignMiddles"
+                                             UnfurlOrientation="Horizontal"
+                                             ToolTip="{x:Static p:Resources.ManageProjects}"
+                                             Margin="0 0 10 10"
+                                             HorizontalAlignment="Right"
+                                             VerticalAlignment="Bottom">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Add" />
-                            <TextBlock Text="{x:Static p:Resources.AddNewTask}" />
+                            <Button ToolTip="{x:Static p:Resources.AddNewProject}"
+                                    Command="{Binding RunExtendedCommand}">
+                                <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                                      Stretch="Uniform"
+                                      Width="15"
+                                      Height="15"
+                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                            </Button>
+                                <Button ToolTip="{x:Static p:Resources.DeleteSelectedProject}"
+                                        Command="{Binding RemoveSelectedProjectCommand}"
+                                        IsEnabled="{Binding ButtonsEnabled}">
+                                    <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                      Stretch="Uniform"
+                                      Width="15"
+                                      Height="15"
+                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                            </Button>
                         </StackPanel>
-                    </Button>
+
+                    </materialDesign:PopupBox>
                 </Grid>
+            </materialDesign:Card>
+            </DockPanel>
+            <Grid Grid.Column="1"
+                  Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0"
+                          Name="DataGridTasks"
+                          ItemsSource="{Binding SelectedItem.Tasks}"
+                          SelectedItem="{Binding SelectedTask}"
+                          CellEditEnding="DataGridTasks_CellEditEnding"
+                          CanUserAddRows="False"
+                          VerticalContentAlignment="Center"
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="All">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{x:Static p:Resources.Title}"
+                                            Binding="{Binding Title}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                            Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment"
+                                            Value="Center" />
+                                    <Setter Property="TextWrapping"
+                                            Value="Wrap" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="{x:Static p:Resources.Description}"
+                                            Binding="{Binding Description}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                            Width="200">
+                            
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment"
+                                            Value="Center"></Setter>
+                                    <Setter Property="TextBlock.TextWrapping"
+                                            Value="Wrap" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="{x:Static p:Resources.Completed}"
+                                                Binding="{Binding IsDone}"
+                                                ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                        </DataGridCheckBoxColumn>
+                        <materialDesign:DataGridComboBoxColumn Header="{x:Static p:Resources.Assignee}"
+                                                               SelectedValueBinding="{Binding Assignee}"
+                                                               ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Users}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{x:Static p:Resources.Delete}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            Click="Button_Click"
+                                            Margin="0"
+                                            Width="25"
+                                            Height="25">
+                                        <materialDesign:PackIcon Kind="Delete" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="1"
+                        MinWidth="150"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Command="{Binding AddNewTaskCommand}"
+                        IsEnabled="{Binding ButtonsEnabled}"
+                        Margin="0 10 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Add" />
+                        <TextBlock Text="{x:Static p:Resources.AddNewTask}" />
+                    </StackPanel>
+                </Button>
             </Grid>
-        </materialDesign:DialogHost>
-    </ScrollViewer>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

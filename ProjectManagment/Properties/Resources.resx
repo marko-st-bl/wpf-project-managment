@@ -195,6 +195,9 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NoProjectsMessage" xml:space="preserve">
+    <value>Looks like you don't have any projects at the moment. You can add them below.</value>
+  </data>
   <data name="OK_Button" xml:space="preserve">
     <value>OK</value>
   </data>

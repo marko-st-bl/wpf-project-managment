@@ -23,10 +23,6 @@ namespace ProjectManagment.ViewModels
             _dataFactory = new MySqlDataFactory();
 
             Projects = new ObservableCollection<Project>();
-            if(Projects.Count > 0)
-            {
-                SelectedItem = Projects[0];
-            }
             Users = new ObservableCollection<User>();
 
             RunExtendedCommand = new AnotherCommandImplementation(ExecuteRunExtendedDialog);
@@ -37,6 +33,7 @@ namespace ProjectManagment.ViewModels
 
             LoadProjects();
             LoadUsers();
+
         }
         public ICommand RunExtendedCommand { get; }
         public ICommand RemoveSelectedProjectCommand { get; }
@@ -53,7 +50,8 @@ namespace ProjectManagment.ViewModels
             set => SetProperty(ref _selectedItem, value);
         }
         public Task SelectedTask { get; set; }
-
+        public bool HasNoProjects => Projects.Count() == 0;
+        public bool ButtonsEnabled => SelectedItem != null && SelectedItem is Project;
         private void LoadProjects()
         {
             List<Project> projects = _dataFactory.Projects.GetProjectsByManagerId(_context.User.Id);
@@ -76,15 +74,21 @@ namespace ProjectManagment.ViewModels
 
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog");
-            if(result is string && result != "")
+            if (result is string && result as string != "")
             {
                 Project newProject = new Project() { Title = (string)result, ManagerId = _context.User.Id };
-                _dataFactory.Projects.AddProject(newProject);
+                int id = _dataFactory.Projects.AddProject(newProject);
+                newProject.Id = id;
                 Projects.Add(newProject);
+                OnPropertyChanged(nameof(HasNoProjects));
             }
-
             //check the result...
             Debug.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        public void ChangeProperty(string propertyName)
+        {
+            OnPropertyChanged(propertyName);
         }
 
         private async void ExecuteRunPromtDialog(object o)
@@ -98,6 +102,9 @@ namespace ProjectManagment.ViewModels
                 {
                     _dataFactory.Projects.DeleteProjectById(selectedProject.Id);
                     Projects.Remove(selectedProject);
+                    SelectedItem = null;
+                    OnPropertyChanged(nameof(ButtonsEnabled));
+                    OnPropertyChanged(nameof(HasNoProjects));
                 }
             }
         }

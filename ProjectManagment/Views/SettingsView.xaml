@@ -100,7 +100,7 @@
                     Click="Button_Click_1"
                     Content="{x:Static p:Resources.Save_Button}"
                     Command="{Binding SaveSettingsCommand}"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                     />
 
         </StackPanel>
         <materialDesign:Snackbar Grid.Row="4"

@@ -1,5 +1,6 @@
 ﻿using ProjectManagment.DataAccess;
 using ProjectManagment.Models;
+using ProjectManagment.Properties;
 using ProjectManagment.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,11 @@ namespace ProjectManagment.Views
             InitializeComponent();
         }
 
-        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) => _viewModel.SelectedItem = e.NewValue;
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            _viewModel.SelectedItem = e.NewValue;
+            _viewModel.ChangeProperty("ButtonsEnabled");
+        }
 
         private void DataGridTasks_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -40,27 +45,9 @@ namespace ProjectManagment.Views
             {
                 Task newTask = task;
 
-                TextBox tb = e.EditingElement as TextBox;
-                var cb = e.EditingElement as CheckBox;
                 var comboBox = e.EditingElement as ComboBox;
                 
-                if (tb != null)
-                {
-                    switch(e.Column.Header)
-                    {
-                        case("Title"):
-                            task.Title = tb.Text;
-                            break;
-                        case("Description"):
-                            task.Description = tb.Text;
-                            break; 
-                    }
-                } 
-                else if(cb != null)
-                {
-                    newTask.IsDone = (bool)cb.IsChecked;
-                }
-                else if(comboBox != null)
+                if(comboBox != null)
                 {
                     var user = comboBox.SelectedItem as User;
                     if(user != null)

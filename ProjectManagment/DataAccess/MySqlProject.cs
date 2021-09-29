@@ -16,7 +16,7 @@ namespace ProjectManagment.DataAccess
         public static readonly string DELETE = "DELETE FROM project WHERE id=@id";
         public static readonly string SELECT_BY_MANAGER_ID = "SELECT id, title, manager_id FROM project WHERE manager_id=@manager_id";
 
-        public void AddProject(Project project)
+        public int AddProject(Project project)
         {
             MySqlConnection conn = null;
             MySqlCommand cmd;
@@ -28,6 +28,7 @@ namespace ProjectManagment.DataAccess
                 cmd.Parameters.AddWithValue("@title",project.Title);
                 cmd.Parameters.AddWithValue("@manager_id", project.ManagerId);
                 cmd.ExecuteNonQuery();
+                return (int)cmd.LastInsertedId;
             }
             catch (Exception ex)
             {

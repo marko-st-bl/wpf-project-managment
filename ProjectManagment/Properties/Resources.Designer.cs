@@ -295,6 +295,15 @@ namespace ProjectManagment.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looks like you don&apos;t have any projects at the moment. You can add them below..
+        /// </summary>
+        public static string NoProjectsMessage {
+            get {
+                return ResourceManager.GetString("NoProjectsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK_Button {

@@ -195,6 +195,9 @@
   <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
+  <data name="NoProjectsMessage" xml:space="preserve">
+    <value>Izgleda da nemate projekata trenutno. Mozete ih dodati ispod.</value>
+  </data>
   <data name="OK_Button" xml:space="preserve">
     <value>Uredu</value>
   </data>
