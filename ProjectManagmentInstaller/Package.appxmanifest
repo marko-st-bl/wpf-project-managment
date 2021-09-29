@@ -9,7 +9,7 @@
   <Identity
     Name="efe46f45-f8a2-4fd2-8e2d-bc50ac88eded"
     Publisher="CN=Marko Stojanovic"
-    Version="1.0.1.0" />
+    Version="1.0.3.0" />
 
   <Properties>
     <DisplayName>ProjectManagmentInstaller</DisplayName>
